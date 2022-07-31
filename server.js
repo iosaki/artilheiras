@@ -1,25 +1,25 @@
+const express = require("express");
+
 if (process.env.NODE_ENV !== "production") {
 	require("dotenv").config();
 }
 
-const express = require("express");
 const app = express();
-const expressLayouts = require("express-ejs-layouts");
 
-const indexRouter = require("./routes/index");
+// // MIDDLEWARE
+// const cors = require("cors");
+// app.use((req, res, next) => {
+// 	// console.log("acessou o middleware");
+// 	res.header("Access-Control-Allow-Origin", "*");
+// 	res.header("Access-Control-Allow-Methods", "*");
+// 	app.use(cors());
+// 	next();
+// });
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-// app.set("view engine", "ejs");
-// app.set("views©", __dirname + "/views");
-// app.set("layout", "layouts/layout");
-// app.use(expressLayouts);
-// app.use(express.static("public"));
-
-const mongoose = require("mongoose");
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("connected to mongoose"));
-
-app.use("/", indexRouter);
+// rotas
+app.use("/", require("./routes/index"));
+app.use("/", require("./routes/users"));
 
 app.listen(process.env.PORT || 3000);
