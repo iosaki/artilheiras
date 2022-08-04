@@ -15,6 +15,7 @@ const app = express();
 // 	app.use(cors());
 // 	next();
 // });
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -22,4 +23,4 @@ app.use(express.json());
 app.use("/", require("./routes/index"));
 app.use("/", require("./routes/users"));
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3001);

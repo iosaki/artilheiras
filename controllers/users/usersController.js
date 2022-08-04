@@ -5,7 +5,6 @@ exports.index = async (req, res) => {
 	const users = await prisma.user.findMany();
 	res.json(users);
 	if (users) {
-		console.log(users);
 		return users;
 	} else {
 		return {
@@ -17,7 +16,11 @@ exports.index = async (req, res) => {
 
 exports.create = async (req, res) => {
 	const newUser = await prisma.user.create({
-		data: { username: req.body.username, password: req.body.password },
+		data: {
+			full_name: req.body.full_name,
+			email: req.body.email,
+			password: req.body.password,
+		},
 	});
 	res.status(201).send({ message: "user created successfully" });
 };
@@ -34,7 +37,11 @@ exports.show = async (req, res) => {
 exports.edit = async (req, res) => {
 	const user = await prisma.user.update({
 		where: { id: req.params.id },
-		data: { username: req.body.username, password: req.body.password },
+		data: {
+			full_name: req.body.full_name,
+			email: req.body.email,
+			password: req.body.password,
+		},
 	});
 	res.status(201).send({ message: "user updated successfully" });
 };
