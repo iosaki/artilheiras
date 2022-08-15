@@ -6,21 +6,20 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 
-// // MIDDLEWARE
-// const cors = require("cors");
-// app.use((req, res, next) => {
-// 	// console.log("acessou o middleware");
-// 	res.header("Access-Control-Allow-Origin", "*");
-// 	res.header("Access-Control-Allow-Methods", "*");
-// 	app.use(cors());
-// 	next();
-// });
+// MIDDLEWARE
+const cors = require("cors");
+const corsOptions = {
+	origin: "*",
+	credentials: true, //access-control-allow-credentials:true
+	optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions)); // Use this after the variable declaration
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // rotas
-app.use("/", require("./routes/index"));
 app.use("/", require("./routes/users"));
+app.use("/", require("./routes/authentication"));
 
 app.listen(process.env.PORT || 3001);

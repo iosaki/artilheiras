@@ -11,11 +11,20 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model User {
+model users {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   full_name String
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  tokens    tokens?
+}
+
+model tokens {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user      users    @relation(fields: [user_id], references: [id])
+  user_id   String   @unique @db.Uuid
+  token     String   @unique
+  createdAt DateTime @default(now())
 }
