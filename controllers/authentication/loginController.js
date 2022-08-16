@@ -81,7 +81,7 @@ exports.logout = async (req, res) => {
 
 function generateAccessToken(user) {
 	return jwt.sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: "15s",
+		expiresIn: "5d",
 	});
 }
 

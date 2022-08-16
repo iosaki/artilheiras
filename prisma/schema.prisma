@@ -18,13 +18,13 @@ model users {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  tokens    tokens?
+  tokens    tokens[]
 }
 
 model tokens {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user      users    @relation(fields: [user_id], references: [id])
-  user_id   String   @unique @db.Uuid
+  user_id   String   @db.Uuid
   token     String   @unique
   createdAt DateTime @default(now())
 }
