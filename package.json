@@ -7,7 +7,7 @@
 	"description": "",
 	"main": "server",
 	"scripts": {
-		"start": "node -r dotenv/config server",
+		"start": "node server",
 		"dev": "nodemon server"
 	},
 	"keywords": [],
