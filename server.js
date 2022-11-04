@@ -6,7 +6,6 @@ const cors = require("cors");
 if (process.env.NODE_ENV !== "production") {
 	require("dotenv").config();
 }
-require("dotenv").config();
 
 const app = express();
 
@@ -36,11 +35,4 @@ app.use("/", require("./routes/authentication"));
 app.use(auth);
 app.use("/users", require("./routes/users"));
 
-// app.listen(process.env.PORT || 3001);
-app.listen(process.env.PORT || 3001, function () {
-	console.log(
-		"Express server listening on port %d in %s mode",
-		this.address().port,
-		app.settings.env
-	);
-});
+app.listen(process.env.PORT || 3001);
