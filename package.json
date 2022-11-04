@@ -5,9 +5,9 @@
 		"node": "18.3.0"
 	},
 	"description": "",
-	"main": "server",
+	"main": "index.js",
 	"scripts": {
-		"start": "serve -s build",
+		"start": "node server",
 		"dev": "nodemon server"
 	},
 	"keywords": [],
