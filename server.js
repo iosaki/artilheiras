@@ -10,12 +10,12 @@ if (process.env.NODE_ENV !== "production") {
 const app = express();
 
 // // Cross Origin Resource Sharing
-// const corsOptions = require("./config/corsOptions");
-const corsOptions = {
-	origin: "http://localhost:3000",
-	credentials: true,
-	optionSuccessStatus: 200,
-};
+const corsOptions = require("./config/corsOptions");
+// const corsOptions = {
+// 	origin: "http://localhost:3000",
+// 	credentials: true,
+// 	optionSuccessStatus: 200,
+// };
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
