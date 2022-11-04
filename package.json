@@ -7,7 +7,7 @@
 	"description": "",
 	"main": "server",
 	"scripts": {
-		"start": "node server",
+		"start": "serve -s build",
 		"dev": "nodemon server"
 	},
 	"keywords": [],
