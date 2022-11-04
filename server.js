@@ -19,6 +19,11 @@ const corsOptions = {
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
+app.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	next();
+});
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
