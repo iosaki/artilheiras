@@ -3,9 +3,10 @@ const cookieParser = require("cookie-parser");
 const auth = require("./middleware/auth");
 const cors = require("cors");
 
-// if (process.env.NODE_ENV !== "production") {
-// 	require("dotenv").config();
-// }
+if (process.env.NODE_ENV !== "production") {
+	require("dotenv").config();
+}
+require("dotenv").config();
 
 const app = express();
 
