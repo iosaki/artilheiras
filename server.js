@@ -12,7 +12,7 @@ const app = express();
 // // Cross Origin Resource Sharing
 // const corsOptions = require("./config/corsOptions");
 const corsOptions = {
-	origin: process.env.APP_URL,
+	origin: "http://artilheiras.herokuapp.com",
 	credentials: true,
 	optionSuccessStatus: 200,
 };
