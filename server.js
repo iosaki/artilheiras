@@ -12,10 +12,16 @@ const app = express();
 // // Cross Origin Resource Sharing
 // const corsOptions = require("./config/corsOptions");
 const corsOptions = {
-	origin: "https://artilheiras.vercel.app/",
+	origin: "*",
 	credentials: true,
 	optionSuccessStatus: 200,
 };
+
+app.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	next();
+});
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
