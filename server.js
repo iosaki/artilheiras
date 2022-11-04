@@ -17,11 +17,6 @@ const corsOptions = {
 	optionSuccessStatus: 200,
 };
 
-app.get("/cors", (req, res) => {
-	res.set("Access-Control-Allow-Origin", "*");
-	res.send({ msg: "This has CORS enabled 🎈" });
-});
-
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
