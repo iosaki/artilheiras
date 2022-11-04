@@ -3,14 +3,14 @@ const cookieParser = require("cookie-parser");
 const auth = require("./middleware/auth");
 const cors = require("cors");
 
-if (process.env.NODE_ENV !== "production") {
-	require("dotenv").config();
-}
+// if (process.env.NODE_ENV !== "production") {
+// 	require("dotenv").config();
+// }
 
 const app = express();
 
 // // Cross Origin Resource Sharing
-const corsOptions = require("./config/corsOptions");
+// const corsOptions = require("./config/corsOptions");
 // const corsOptions = {
 // 	origin: "http://localhost:3000",
 // 	credentials: true,
@@ -18,7 +18,7 @@ const corsOptions = require("./config/corsOptions");
 // };
 
 // Cross Origin Resource Sharing
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
