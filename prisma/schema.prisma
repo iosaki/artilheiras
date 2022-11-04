@@ -13,7 +13,6 @@ datasource db {
 
 model users {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  full_name String
   email     String   @unique
   password  String
   createdAt DateTime @default(now())

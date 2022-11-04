@@ -1,4 +1,7 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const auth = require("./middleware/auth");
+const cors = require("cors");
 
 if (process.env.NODE_ENV !== "production") {
 	require("dotenv").config();
@@ -6,20 +9,30 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 
-// MIDDLEWARE
-const cors = require("cors");
+// // Cross Origin Resource Sharing
+// const corsOptions = require("./config/corsOptions");
 const corsOptions = {
-	origin: "*",
-	credentials: true, //access-control-allow-credentials:true
+	origin: "http://localhost:3000",
+	credentials: true,
 	optionSuccessStatus: 200,
 };
-app.use(cors(corsOptions)); // Use this after the variable declaration
 
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+// built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
+
+// build-in middleware for json
+app.use(cookieParser());
+
+// middleware for cookies
 app.use(express.json());
 
-// rotas
-app.use("/", require("./routes/users"));
+// public routes
 app.use("/", require("./routes/authentication"));
+// protected routes
+app.use(auth);
+app.use("/users", require("./routes/users"));
 
 app.listen(process.env.PORT || 3001);

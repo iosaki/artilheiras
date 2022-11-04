@@ -6,30 +6,6 @@ const { default: test } = require("node:test");
 const { send } = require("process");
 const { json } = require("stream/consumers");
 
-exports.token = async (req, res) => {
-	const refreshToken = req.body.token;
-	const refreshTokens = await prisma.tokens.findUnique({
-		where: {
-			token: req.body.token,
-		},
-		include: {
-			user: true,
-		},
-	});
-	if (!refreshToken) return res.sendStatus(401);
-	if (!refreshTokens) return res.sendStatus(403);
-
-	jwt.verify(
-		refreshToken,
-		process.env.REFRESH_TOKEN_SECRET,
-		(err, refreshTokens) => {
-			if (err) return res.sendStatus(403);
-			const accessToken = generateAccessToken(refreshTokens);
-			return res.json({ accessToken: accessToken });
-		}
-	);
-};
-
 exports.login = async (req, res) => {
 	try {
 		const user = await prisma.users.findUnique({
@@ -37,9 +13,8 @@ exports.login = async (req, res) => {
 				email: req.body.email,
 			},
 		});
-		console.log(user);
 		if (!user) {
-			return res.status(400).send("Cannot find user");
+			res.status(400).send("Cannot find user");
 		}
 
 		const checkPassword = await bcrypt.compare(
@@ -47,7 +22,7 @@ exports.login = async (req, res) => {
 			user.password
 		);
 		if (!checkPassword) {
-			return res.status(400).send("Invalid password");
+			res.status(400).send("Credenciais inválidas");
 		}
 
 		const accessToken = await generateAccessToken(user);
@@ -60,32 +35,31 @@ exports.login = async (req, res) => {
 			},
 		});
 
-		return res.json({ accessToken: accessToken, refreshToken: refreshToken });
+		res.cookie("jwt", refreshToken, {
+			httpOnly: true,
+			sameSite: "None",
+			secure: true,
+			maxAge: 24 * 60 * 60 * 1000,
+		});
+
+		res.json({ accessToken: accessToken });
 	} catch (e) {
 		console.error(e);
-		return sendErrorResponse(
-			res,
-			500,
-			"Server error, contact admin to resolve issue",
-			e
-		);
+		// sendErrorResponse(
+		// 	res.status(500).send("Server error, contact admin to resolve issue")
+		// );
 	}
-};
-
-exports.logout = async (req, res) => {
-	const deleteRefreshTokens = await prisma.tokens.delete({
-		where: { token: req.body.token },
-	});
-	res.status(204).send();
 };
 
 function generateAccessToken(user) {
 	return jwt.sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: "5d",
+		expiresIn: "1d",
 	});
 }
 
 function generateRefreshToken(user) {
-	const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+	const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+		expiresIn: "7d",
+	});
 	return refreshToken;
 }

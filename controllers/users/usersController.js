@@ -3,7 +3,9 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
 exports.index = async (req, res) => {
+	const user = req.user.userId;
 	const users = await prisma.users.findMany();
+
 	res.json(users);
 	if (users) {
 		return users;
@@ -20,16 +22,14 @@ exports.create = async (req, res) => {
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		const newUser = await prisma.users.create({
 			data: {
-				full_name: req.body.full_name,
 				email: req.body.email,
 				password: hashedPassword,
 			},
 		});
-		console.log(newUser);
 
 		res.status(201).send({ message: "user created successfully" });
 	} catch {
-		res.status(500).send();
+		res.status(500).send({ message: "internal server error" });
 	}
 };
 
@@ -39,7 +39,6 @@ exports.show = async (req, res) => {
 			id: req.params.id,
 		},
 	});
-	console.log(user);
 	res.json(user);
 };
 
