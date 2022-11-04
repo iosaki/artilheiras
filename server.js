@@ -12,18 +12,13 @@ const app = express();
 // // Cross Origin Resource Sharing
 // const corsOptions = require("./config/corsOptions");
 const corsOptions = {
-	origin: "http://artilheiras.herokuapp.com",
+	origin: "http://artilheiras.herokuapp.com/",
 	credentials: true,
 	optionSuccessStatus: 200,
 };
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
-app.use(function (req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	next();
-});
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
